@@ -6,8 +6,9 @@ import reducer from "./reducers";
 import App from "./components/App";
 import "./css/index.css";
 import registerServiceWorker from "./registerServiceWorker";
+import middleware from './middleware'
 
-const store = createStore(reducer);
+const store = createStore(reducer, middleware)
 // tslint:disable-next-line:no-console
 console.log(store.getState());
 
