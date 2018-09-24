@@ -1,21 +1,27 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { handleInitalData } from "../actions/shared";
-
-class App extends React.Component<{ dispatch: any }, {}> {
+import Dashboard from "./Dashboard";
+class App extends React.Component<{ dispatch: any; loading: any }, {}> {
   constructor(props: any) {
     super(props);
   }
   componentDidMount() {
     this.props.dispatch(handleInitalData());
   }
-  public render() {
+  render() {
     return (
       <div className="App">
-        <h1 className="App-title">Welcome to React</h1>
+        {this.props.loading === true ? null : <Dashboard />}
       </div>
     );
   }
 }
 
-export default connect()(App);
+function mapStateToProps({ authedUser }: { authedUser: any }) {
+  return {
+    loading: authedUser === null
+  };
+}
+
+export default connect(mapStateToProps)(App);
