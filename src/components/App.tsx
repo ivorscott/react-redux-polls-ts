@@ -1,6 +1,14 @@
 import * as React from "react";
+import { connect } from "react-redux";
+import { handleInitalData } from "../actions/shared";
 
-class App extends React.Component {
+class App extends React.Component<{ dispatch: any }, {}> {
+  constructor(props: any) {
+    super(props);
+  }
+  componentDidMount() {
+    this.props.dispatch(handleInitalData());
+  }
   public render() {
     return (
       <div className="App">
@@ -10,4 +18,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default connect()(App);
