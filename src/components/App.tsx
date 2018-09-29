@@ -2,6 +2,8 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { handleInitalData } from "../actions/shared";
 import Dashboard from "./Dashboard";
+import LoadingBar from "react-redux-loading";
+
 class App extends React.Component<{ dispatch: any; loading: any }, {}> {
   constructor(props: any) {
     super(props);
@@ -12,6 +14,7 @@ class App extends React.Component<{ dispatch: any; loading: any }, {}> {
   render() {
     return (
       <div className="App">
+        <LoadingBar />
         {this.props.loading === true ? null : <Dashboard />}
       </div>
     );
