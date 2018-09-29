@@ -1,11 +1,17 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import polls from "../reducers/polls";
+import { IUsers, IPolls } from "./_types";
 
-class Dashboard extends React.Component<
-  { answered: any; unanswered: any },
-  { showAnswered: boolean }
-> {
+export interface IDashboardProps {
+  answered: any;
+  unanswered: any;
+}
+
+export interface IDashboardState {
+  showAnswered: boolean;
+}
+
+class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -28,11 +34,10 @@ class Dashboard extends React.Component<
   render() {
     const { showAnswered } = this.state;
     const { answered, unanswered } = this.props;
-
+    // tslint:disable-next-line:no-console
+    console.log(this.state, this.props);
     const list: any = showAnswered === true ? answered : unanswered;
 
-    // tslint:disable-next-line:no-console
-    console.log(this.props);
     return (
       <div>
         <div className="dashboard-toggle">
@@ -64,24 +69,21 @@ class Dashboard extends React.Component<
   }
 }
 
-function mapStateToProps({
-  authedUser,
-  // polls,
-  users
-}: {
+function mapStateToProps(state: {
   authedUser: string;
-  polls: any;
-  users: any;
+  users: IUsers;
+  polls: IPolls;
 }) {
-  const answers = users[authedUser].answers;
+  const { authedUser, users, polls } = state;
+  const answers = users[authedUser].answers as string[];
 
   const answered = answers
-    .map((id: any) => polls[id])
+    .map((id: string) => polls[id])
     .sort((a: any, b: any) => b.timestamp - a.timestamp);
 
   const unanswered = Object.keys(polls)
     .filter(id => !answers.includes(id))
-    .map((id: any) => polls[id])
+    .map((id: string) => polls[id])
     .sort((a: any, b: any) => b.timestamp - a.timestamp);
 
   return {
